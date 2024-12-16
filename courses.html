@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - Courses</title>
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #121212; color: #e0e0e0;">
+    <header style="background-color: #1e1e1e; color: #ffffff; padding: 20px; box-shadow: 0 2px 4px rgba(255,255,255,0.1);">
+        <h1 style="margin: 0; font-size: 2rem;">Our Courses</h1>
+    </header>
+
+    <nav style="background-color: #1e1e1e; padding: 15px; box-shadow: 0 2px 4px rgba(255,255,255,0.1);">
+        <a href="index.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Home</a>
+        <a href="courses.html" style="margin: 0 15px; text-decoration: none; color: #bb86fc; font-weight: bold; transition: color 0.3s ease;">Courses</a>
+        <a href="tasks.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Tasks</a>
+        <a href="profile.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Profile</a>
+    </nav>
+
+    <main style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
+        <h2 style="color: #bb86fc; font-size: 2rem; margin-bottom: 20px; text-align: center;">Available Courses</h2>
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+            <label for="courseFilter" style="margin-right: 10px; color: #e0e0e0;">Filter by level:</label>
+            <select id="courseFilter" style="padding: 5px; border-radius: 4px; border: 1px solid #bb86fc; background-color: #1e1e1e; color: #e0e0e0;">
+                <option value="all">All Levels</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+        </div>
+
+        <div id="courseList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+            <!-- Course items will be dynamically added here -->
+        </div>
+    </main>
+
+    <footer style="background-color: #1e1e1e; color: #e0e0e0; padding: 20px; margin-top: auto; text-align: center;">
+        <p style="margin: 0;">&copy; 2024 <a href="https://www.instagram.com/web.landers/">Weblanders</a>. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const courses = [
+            { title: "HTML & CSS Basics", level: "beginner", duration: "4 weeks", description: "Learn the fundamentals of web design with HTML and CSS." },
+            { title: "JavaScript for Beginners", level: "beginner", duration: "6 weeks", description: "Start your journey into interactive web development with JavaScript." },
+            { title: "Python Programming", level: "intermediate", duration: "8 weeks", description: "Dive into Python programming for various applications including data analysis." },
+            { title: "Advanced React Development", level: "advanced", duration: "10 weeks", description: "Master React and build complex, scalable web applications." },
+            { title: "Data Science Fundamentals", level: "intermediate", duration: "12 weeks", description: "Explore the basics of data science using Python and popular libraries." },
+            { title: "Machine Learning Essentials", level: "advanced", duration: "14 weeks", description: "Learn core concepts and algorithms in machine learning." }
+        ];
+
+        const courseList = document.getElementById('courseList');
+        const courseFilter = document.getElementById('courseFilter');
+
+        function createCourseElement(course) {
+            const courseElement = document.createElement('div');
+            courseElement.style.backgroundColor = '#1e1e1e';
+            courseElement.style.borderRadius = '8px';
+            courseElement.style.padding = '20px';
+            courseElement.style.boxShadow = '0 2px 10px rgba(255,255,255,0.1)';
+            courseElement.innerHTML = `
+                <h3 style="color: #bb86fc; margin-bottom: 10px;">${course.title}</h3>
+                <p style="color: #e0e0e0; margin-bottom: 5px;"><strong>Level:</strong> ${course.level}</p>
+                <p style="color: #e0e0e0; margin-bottom: 5px;"><strong>Duration:</strong> ${course.duration}</p>
+                <p style="color: #e0e0e0;">${course.description}</p>
+                <button style="background: linear-gradient(45deg, #6200ea, #bb86fc); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-top: 10px; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Enroll Now</button>
+            `;
+            return courseElement;
+        }
+
+        function displayCourses(filter = 'all') {
+            courseList.innerHTML = '';
+            courses.forEach(course => {
+                if (filter === 'all' || course.level === filter) {
+                    courseList.appendChild(createCourseElement(course));
+                }
+            });
+        }
+
+        courseFilter.addEventListener('change', (e) => {
+            displayCourses(e.target.value);
+        });
+
+        // Initial display of all courses
+        displayCourses();
+    </script>
+</body>
+</html>
+

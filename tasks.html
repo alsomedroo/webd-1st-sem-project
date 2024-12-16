@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - Tasks</title>
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #121212; color: #e0e0e0;">
+    <header style="background-color: #1e1e1e; color: #ffffff; padding: 20px; box-shadow: 0 2px 4px rgba(255,255,255,0.1);">
+        <h1 style="margin: 0; font-size: 2rem;">Your Tasks</h1>
+    </header>
+
+    <nav style="background-color: #1e1e1e; padding: 15px; box-shadow: 0 2px 4px rgba(255,255,255,0.1);">
+        <a href="index.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Home</a>
+        <a href="courses.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Courses</a>
+        <a href="tasks.html" style="margin: 0 15px; text-decoration: none; color: #bb86fc; font-weight: bold; transition: color 0.3s ease;">Tasks</a>
+        <a href="profile.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Profile</a>
+    </nav>
+
+    <main style="padding: 40px 20px; max-width: 800px; margin: 0 auto;">
+        <h2 style="color: #bb86fc; font-size: 2rem; margin-bottom: 20px; text-align: center;">Tasks to Complete</h2>
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+            <input type="text" id="newTaskInput" placeholder="Enter a new task" style="padding: 10px; width: 70%; border: 1px solid #bb86fc; border-radius: 4px; background-color: #1e1e1e; color: #e0e0e0;">
+            <button onclick="addTask()" style="padding: 10px 20px; background: linear-gradient(45deg, #6200ea, #bb86fc); color: white; border: none; border-radius: 4px; cursor: pointer; transition: opacity 0.3s ease;">Add Task</button>
+        </div>
+
+        <ul id="taskList" style="list-style-type: none; padding: 0;">
+            <!-- Tasks will be dynamically added here -->
+        </ul>
+    </main>
+
+    <footer style="background-color: #1e1e1e; color: #e0e0e0; padding: 20px; margin-top: auto; text-align: center;">
+        <p style="margin: 0;">&copy; 2024 <a href="https://www.instagram.com/web.landers/">Weblanders</a>. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const tasks = [
+            { id: 1, text: "Complete HTML Basics", completed: false },
+            { id: 2, text: "Submit JavaScript Quiz", completed: false },
+            { id: 3, text: "Review Python Fundamentals", completed: false },
+            { id: 4, text: "Prepare for Data Structures Interview", completed: false }
+        ];
+
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.style.backgroundColor = '#1e1e1e';
+                li.style.padding = '15px';
+                li.style.margin = '10px 0';
+                li.style.borderRadius = '8px';
+                li.style.boxShadow = '0 2px 4px rgba(255,255,255,0.1)';
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+
+                const taskText = document.createElement('span');
+                taskText.textContent = task.text;
+                taskText.style.textDecoration = task.completed ? 'line-through' : 'none';
+                taskText.style.color = task.completed ? '#bb86fc' : '#e0e0e0';
+
+                const buttonsContainer = document.createElement('div');
+
+                const completeButton = document.createElement('button');
+                completeButton.textContent = task.completed ? 'Undo' : 'Complete';
+                completeButton.style.padding = '5px 10px';
+                completeButton.style.marginRight = '5px';
+                completeButton.style.background = task.completed ? '#1e1e1e' : 'linear-gradient(45deg, #6200ea, #bb86fc)';
+                completeButton.style.color = task.completed ? '#bb86fc' : 'white';
+                completeButton.style.border = task.completed ? '1px solid #bb86fc' : 'none';
+                completeButton.style.borderRadius = '4px';
+                completeButton.style.cursor = 'pointer';
+                completeButton.onclick = () => toggleTaskCompletion(task.id);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.style.padding = '5px 10px';
+                deleteButton.style.backgroundColor = '#cf6679';
+                deleteButton.style.color = 'white';
+                deleteButton.style.border = 'none';
+                deleteButton.style.borderRadius = '4px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.onclick = () => deleteTask(task.id);
+
+                buttonsContainer.appendChild(completeButton);
+                buttonsContainer.appendChild(deleteButton);
+
+                li.appendChild(taskText);
+                li.appendChild(buttonsContainer);
+                taskList.appendChild(li);
+            });
+        }
+
+        function toggleTaskCompletion(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+            }
+        }
+
+        function deleteTask(taskId) {
+            const index = tasks.findIndex(t => t.id === taskId);
+            if (index !== -1) {
+                tasks.splice(index, 1);
+                renderTasks();
+            }
+        }
+
+        function addTask() {
+            const newTaskInput = document.getElementById('newTaskInput');
+            const taskText = newTaskInput.value.trim();
+            if (taskText) {
+                const newTask = {
+                    id: tasks.length + 1,
+                    text: taskText,
+                    completed: false
+                };
+                tasks.push(newTask);
+                newTaskInput.value = '';
+                renderTasks();
+            }
+        }
+
+        // Initial render
+        renderTasks();
+    </script>
+</body>
+</html>
+

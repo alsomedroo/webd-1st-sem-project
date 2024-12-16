@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - Student Profile</title>
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #121212; color: #e0e0e0;">
+    <header style="background-color: #1e1e1e; color: #ffffff; padding: 20px; box-shadow: 0 2px 4px rgba(255,255,255,0.1);">
+        <h1 style="margin: 0; font-size: 2rem;">Student Profile</h1>
+    </header>
+
+    <nav style="background-color: #1e1e1e; padding: 15px; box-shadow: 0 2px 4px rgba(255,255,255,0.1);">
+        <a href="index.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Home</a>
+        <a href="courses.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Courses</a>
+        <a href="tasks.html" style="margin: 0 15px; text-decoration: none; color: #e0e0e0; transition: color 0.3s ease;">Tasks</a>
+        <a href="profile.html" style="margin: 0 15px; text-decoration: none; color: #bb86fc; font-weight: bold; transition: color 0.3s ease;">Profile</a>
+    </nav>
+
+    <main style="padding: 40px 20px; max-width: 800px; margin: 0 auto;">
+        <div style="background-color: #1e1e1e; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                <img id="profileImage" src="https://via.placeholder.com/150" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-right: 30px;">
+                <div>
+                    <h2 id="userName" style="color: #bb86fc; font-size: 2rem; margin: 0 0 10px 0;">John Doe</h2>
+                    <p id="userEmail" style="color: #e0e0e0; font-size: 1.1rem; margin: 0;">john.doe@example.com</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #bb86fc; font-size: 1.5rem; margin-bottom: 15px;">About Me</h3>
+                <p id="userBio" style="color: #e0e0e0; line-height: 1.6;">Passionate learner with a keen interest in web development and data science. Always eager to take on new challenges and expand my knowledge.</p>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #bb86fc; font-size: 1.5rem; margin-bottom: 15px;">My Progress</h3>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span style="color: #e0e0e0;">Courses Completed:</span>
+                    <span id="coursesCompleted" style="color: #bb86fc;">3</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span style="color: #e0e0e0;">Tasks Completed:</span>
+                    <span id="tasksCompleted" style="color: #bb86fc;">15</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #e0e0e0;">Total Study Hours:</span>
+                    <span id="studyHours" style="color: #bb86fc;">42</span>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: #bb86fc; font-size: 1.5rem; margin-bottom: 15px;">Skills</h3>
+                <div id="skillsContainer" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <!-- Skills will be dynamically added here -->
+                </div>
+            </div>
+
+            <button onclick="toggleEditMode()" style="background: linear-gradient(45deg, #6200ea, #bb86fc); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 30px; font-size: 1rem; transition: opacity 0.3s ease;">Edit Profile</button>
+        </div>
+    </main>
+
+    <footer style="background-color: #1e1e1e; color: #e0e0e0; padding: 20px; margin-top: auto; text-align: center;">
+        <p style="margin: 0;">&copy; 2024 <a href="https://www.instagram.com/web.landers/">Weblanders</a>. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const user = {
+            name: "John Doe",
+            email: "john.doe@example.com",
+            bio: "Passionate learner with a keen interest in web development and data science. Always eager to take on new challenges and expand my knowledge.",
+            coursesCompleted: 3,
+            tasksCompleted: 15,
+            studyHours: 42,
+            skills: ["HTML", "CSS", "JavaScript", "Python", "Data Analysis"]
+        };
+
+        function updateProfile() {
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userBio').textContent = user.bio;
+            document.getElementById('coursesCompleted').textContent = user.coursesCompleted;
+            document.getElementById('tasksCompleted').textContent = user.tasksCompleted;
+            document.getElementById('studyHours').textContent = user.studyHours;
+
+            const skillsContainer = document.getElementById('skillsContainer');
+            skillsContainer.innerHTML = '';
+            user.skills.forEach(skill => {
+                const skillElement = document.createElement('span');
+                skillElement.textContent = skill;
+                skillElement.style.backgroundColor = '#3700b3';
+                skillElement.style.color = '#e0e0e0';
+                skillElement.style.padding = '5px 10px';
+                skillElement.style.borderRadius = '15px';
+                skillElement.style.fontSize = '0.9rem';
+                skillsContainer.appendChild(skillElement);
+            });
+        }
+
+        function toggleEditMode() {
+            const isEditing = document.getElementById('userName').contentEditable === 'true';
+            const editableElements = ['userName', 'userEmail', 'userBio'];
+            const editButton = document.querySelector('button');
+
+            if (isEditing) {
+                editableElements.forEach(id => {
+                    document.getElementById(id).contentEditable = 'false';
+                    document.getElementById(id).style.border = 'none';
+                });
+                user.name = document.getElementById('userName').textContent;
+                user.email = document.getElementById('userEmail').textContent;
+                user.bio = document.getElementById('userBio').textContent;
+                editButton.textContent = 'Edit Profile';
+                updateProfile();
+            } else {
+                editableElements.forEach(id => {
+                    document.getElementById(id).contentEditable = 'true';
+                    document.getElementById(id).style.border = '1px dashed #bb86fc';
+                    document.getElementById(id).style.padding = '5px';
+                });
+                editButton.textContent = 'Save Changes';
+            }
+        }
+
+        // Initial profile update
+        updateProfile();
+    </script>
+</body>
+</html>
+
